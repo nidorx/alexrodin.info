@@ -1,0 +1,202 @@
+* {
+  margin: 0;
+  padding: 0;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+  -o-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+* {
+  //user-select: none;
+}
+
+html, body {
+  overflow: hidden;
+  background-color: #000;
+  margin: 0;
+  padding: 0;
+  font: 16px/1.4 'Lato', sans-serif;
+  color: #fefeff;
+  -webkit-font-smoothing: antialiased;
+  font-smoothing: antialiased;
+}
+
+body {
+  margin: 0;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background: rgb(8, 5, 16);
+  -webkit-touch-callout: none;
+  //-webkit-user-select: none;
+  //-khtml-user-select: none;
+  //-moz-user-select: none;
+  //-ms-user-select: none;
+  //user-select: none;
+}
+
+h1 {
+  font: 2.75em 'Cinzel', serif;
+  font-weight: 400;
+  letter-spacing: 0.35em;
+  text-shadow: 0 0 25px rgba(254, 254, 255, 0.85);
+}
+
+h2 {
+  font: 1.45em 'Cinzel', serif;
+  font-weight: 400;
+  letter-spacing: 0.5em;
+  text-shadow: 0 0 25px rgba(254, 254, 255, 0.85);
+  text-transform: lowercase;
+}
+
+[class^="letter"] {
+  -webkit-transition: opacity 3s ease;
+  -moz-transition: opacity 3s ease;
+  transition: opacity 3s ease;
+}
+
+$letter-count: 40;
+$letter-delay-steps: 0.2;
+$letters: null;
+@for $i from 0 through $letter-count {
+  $delay: $letter-delay-steps + $letter-delay-steps * $i;
+
+  .letter-#{$i} {
+    transition-delay: #{$delay}s;
+  }
+
+  $letters: append($letters, unquote(".letter-#{$i}"), comma);
+}
+
+#{$letters} {
+  //append style to all classes
+}
+
+h1, h2 {
+  visibility: hidden;
+  -webkit-transform: translate3d(0, 0, 0);
+  -moz-transform: translate3d(0, 0, 0);
+  transform: translate3d(0, 0, 0);
+}
+
+h1.transition-in,
+h2.transition-in,
+h1.transition-out,
+h2.transition-out {
+  visibility: visible;
+}
+
+h1 [class^="letter"],
+h2 [class^="letter"] {
+  opacity: 0;
+}
+
+h1.transition-in [class^="letter"],
+h2.transition-in [class^="letter"] {
+  opacity: 1;
+}
+
+h1.transition-out [class^="letter"],
+h2.transition-out [class^="letter"] {
+  opacity: 0;
+}
+
+#h3, #h4, #h5 {
+  font: 16px/1.4 'Lato', sans-serif;
+  font-weight: 400;
+  letter-spacing: 0.2em;
+  text-shadow: none;
+}
+
+#h5 {
+  font: 16px/1.4 Lato, sans-serif;
+  letter-spacing: .1em;
+  visibility: visible;
+  margin-top: 50px;
+  opacity: 0;
+  transition-delay: 0.4s;
+  -webkit-transition: opacity 3s ease;
+  -moz-transition: opacity 3s ease;
+  transition: opacity 3s ease;
+}
+
+#h5.visible {
+  opacity: 1;
+}
+
+#h5 .links a {
+  margin: 10px;
+  margin-top: 20px;
+  width: 50px;
+  height: 50px;
+  opacity: 0.5;
+  text-decoration: none;
+  display: inline-block;
+  -webkit-transition: opacity 0.3s ease;
+  -moz-transition: opacity 0.3s ease;
+  transition: opacity 0.3s ease;
+}
+
+#h5 .links a:hover {
+  opacity: 1;
+}
+
+#container {
+  display: table;
+  position: absolute;
+  //z-index: 20;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  //cursor: none;
+}
+
+#container > div {
+  display: table-cell;
+  vertical-align: middle;
+}
+
+#container p {
+  font-size: 0.8em;
+  letter-spacing: 0.1em;
+  font-weight: 300;
+  color: #76747a;
+  -webkit-font-smoothing: subpixel-antialiased;
+  font-smoothing: subpixel-antialiased;
+}
+
+#container p strong {
+  color: #b3abc5;
+}
+
+#container p a {
+  color: #b3abc5;
+  text-decoration: none;
+}
+
+#container p span {
+  font-size: 0.75em;
+  padding: 0 2px;
+}
+
+#container p.footer {
+  position: absolute;
+  width: 100%;
+  left: 0;
+  bottom: 25px;
+  font-size: 0.6em;
+  opacity: 0.5;
+}
+
+#canvas {
+  position: absolute;
+  //z-index: 10;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  //cursor: none;
+}

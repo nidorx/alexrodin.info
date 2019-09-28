@@ -1,0 +1,25 @@
+
+# Faz o build dos fontes da aplicação
+build:
+    - 'clean:dev'
+    - 'sass'
+    - 'cssmin'
+    - 'concat'
+    - 'processhtml'
+    - 'ultra-compact'
+    - 'uglify'
+    - 'htmlmin'
+
+dist:
+    - 'build'
+    - 'copy'
+    - 'clean:dist'
+
+# Permite executar a aplicação no navegador
+server:
+    - 'build'
+    - 'connect:livereload'
+    - 'watch'
+
+default:
+    - 'build'
