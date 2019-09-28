@@ -46,7 +46,6 @@
     })();
 
     window.onload = function () {
-
         letters('h1');
         letters('h2');
         letters('h3');
@@ -171,8 +170,21 @@
             xhr.send();
         }
 
+        function launchIntoFullscreen(element) {
+            if(element.requestFullscreen) {
+                element.requestFullscreen();
+            } else if(element.mozRequestFullScreen) {
+                element.mozRequestFullScreen();
+            } else if(element.webkitRequestFullscreen) {
+                element.webkitRequestFullscreen();
+            } else if(element.msRequestFullscreen) {
+                element.msRequestFullscreen();
+            }
+        }
+
         window.addEventListener('click', function () {
             if (!audioCtx) {
+                launchIntoFullscreen(document.documentElement);
                 audioCtx = new (window.AudioContext || window.webkitAudioContext)();
                 startAudio();
             }
@@ -180,6 +192,7 @@
 
         window.addEventListener('touchstart', function () {
             if (!audioCtx) {
+                launchIntoFullscreen(document.documentElement);
                 audioCtx = new (window.AudioContext || window.webkitAudioContext)();
                 startAudio();
             }

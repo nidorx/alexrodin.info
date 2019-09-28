@@ -11,7 +11,7 @@ app.use(express.static('public', {
     maxAge: '1y'
 }));
 
-var PORT = 8080;
+var PORT = 3060;
 
 app.listen(PORT, function () {
     console.log('Server listening on port ' + PORT);
