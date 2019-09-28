@@ -8,7 +8,7 @@ module.exports = {
         src: '**',
         dest: 'dist/public/img/'
     },
-    images: {
+    audio: {
         expand: true,
         cwd: 'src/audio/',
         src: '**',
