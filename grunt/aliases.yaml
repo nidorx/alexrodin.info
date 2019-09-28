@@ -6,13 +6,13 @@ build:
     - 'cssmin'
     - 'concat'
     - 'processhtml'
-    - 'ultra-compact'
     - 'uglify'
     - 'htmlmin'
 
 dist:
     - 'build'
     - 'copy'
+    - 'package'
     - 'clean:dist'
 
 # Permite executar a aplicação no navegador

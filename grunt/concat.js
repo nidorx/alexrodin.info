@@ -10,7 +10,8 @@ module.exports = {
      */
     js: {
         src: [
-            'src/js/*.js'
+            'src/js/*.js',
+            '!src/js/*.min.js'
         ],
         dest: '.tmp/js/main.js'
     }

@@ -1,6 +1,13 @@
 (function (window) {
     'use strict';
 
+    // before onload
+    window.audioInit = function () {
+        setTimeout(function () {
+            window.audioInit();
+        }, 20);
+    };
+
     function letters(id, callback, extraClass) {
 
         var el = document.getElementById(id),
@@ -39,6 +46,7 @@
     })();
 
     window.onload = function () {
+
         letters('h1');
         letters('h2');
         letters('h3');
@@ -46,6 +54,136 @@
             document.getElementById('h5').className = 'visible';
         });
 
+        var audioCtx;
+        var audioSrc = 'audio/es_intrepid_dye_o.mp3';
+        var source;
+        var buffer;
+
+        function audioInit() {
+            clearInterval(audioInterval);
+            // var SPLATS = [
+            //     // time => [x, y, dx, dy]
+            //     [1000, [Math.random(), Math.random(), Math.random(), Math.random()]],
+            //     // [3000, 1],
+            //     // [100, 2],
+            //     // [100, 3],
+            //     // [800, 1],
+            //     // [800, 1],
+            //     // [800, 1],
+            //     // [800, 1],
+            //     // [800, 1],
+            //     // [800, 1],
+            //     // [800, 1],
+            //     // [800, 1],
+            //     // [800, 1],
+            //     // [800, 1],
+            //     // [800, 1],
+            //     // [800, 1],
+            //     // [800, 1],
+            //     // [800, 1],
+            //     // [800, 1],
+            //     // [800, 1],
+            //     // [800, 1],
+            //     // [800, 1],
+            //     // [800, 1],
+            //     // [100, 1],
+            //     // [100, 2],
+            // ];
+            //
+            // var last = +new Date();
+            // var index = 0;
+            // var next = function () {
+            //     var now = +new Date();
+            //     if (last + SPLATS[index][0] < now) {
+            //         var points = SPLATS[index][1];
+            //         console.log('points', points);
+            //         multipleSplats(points.left);
+            //         // for (var a = 0; a < points.left; a++) {
+            //         //     var point = points[a];
+            //         //     var color = generateColor();
+            //         //     color.r *= 10.0;
+            //         //     color.g *= 10.0;
+            //         //     color.b *= 10.0;
+            //         //     var x = point[0];
+            //         //     var y = point[1];
+            //         //     var dx = 1000 * (point[2] - 0.5);
+            //         //     var dy = 1000 * (point[3] - 0.5);
+            //         //     splat(x, y, dx, dy, color);
+            //         // }
+            //         update();
+            //         index++;
+            //         last = now;
+            //         if (index > SPLATS.length - 1) {
+            //             index = 0
+            //         }
+            //     }
+            // };
+            //
+            // audioInterval = setInterval(next, 100);
+        }
+
+        function startAudio() {
+            var mouseIcon = document.getElementById('mouse');
+            mouseIcon.className = 'hidden';
+            setTimeout(function () {
+                mouseIcon.className = 'hidden off';
+            }, 2000);
+
+            var callback = function (tmpBuffer) {
+                source = audioCtx.createBufferSource();
+
+                source.connect(audioCtx.destination);
+
+                source.buffer = tmpBuffer;
+
+                source.onended = function () {
+                    source.loop = false;
+                };
+
+                source.start(0);
+                source.loop = true;
+                // audioInit();
+                // source.loopStart = 0.24;
+                // source.loopEnd = 0.34;
+            };
+
+            // AudioContext must be resumed after the document received a user gesture to enable audio playback.
+            audioCtx.resume().catch(function (reason) {
+                console.log('reason', reason);
+            });
+
+            if (!!buffer) {
+                // If the buffer is already loaded, use that.
+                callback(buffer);
+                return;
+            }
+
+            var xhr = new XMLHttpRequest();
+
+            xhr.onload = function () {
+                audioCtx.decodeAudioData(xhr.response, function (decodedBuffer) {
+                    callback(decodedBuffer);
+                });
+            };
+
+            xhr.open('GET', audioSrc);
+            xhr.responseType = 'arraybuffer';
+            xhr.send();
+        }
+
+        window.addEventListener('click', function () {
+            if (!audioCtx) {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                startAudio();
+            }
+        });
+
+        window.addEventListener('touchstart', function () {
+            if (!audioCtx) {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                startAudio();
+            }
+        });
 
         function _instanceof(left, right) {
             if (right != null && typeof Symbol !== "undefined" && right[Symbol.hasInstance]) {
@@ -129,15 +267,19 @@
         var splatStack = [];
         pointers.push(new pointerPrototype());
 
-        setInterval(function () {
-            splatStack.push(parseInt(Math.random() * 20) + 5);
-        }, 20000);
+        var audioInterval = 0;
+
+
+        // setInterval(function () {
+        //     splatStack.push(parseInt(Math.random() * 10) + 3);
+        // }, 20000);
 
         var _getWebGLContext = getWebGLContext(canvas),
             gl = _getWebGLContext.gl,
             ext = _getWebGLContext.ext;
 
         if (isMobile()) {
+            config.SIM_RESOLUTION = 64;
             config.DYE_RESOLUTION = 512;
         }
 
@@ -283,120 +425,66 @@
             return /Mobi|Android/i.test(navigator.userAgent);
         }
 
-        function framebufferToTexture(target) {
-            gl.bindFramebuffer(gl.FRAMEBUFFER, target.fbo);
-            var length = target.width * target.height * 4;
-            var texture = new Float32Array(length);
-            gl.readPixels(0, 0, target.width, target.height, gl.RGBA, gl.FLOAT, texture);
-            return texture;
-        }
+        var Material = function () {
+            function Material(vertexShader, fragmentShaderSource) {
+                _classCallCheck(this, Material);
 
-        function normalizeTexture(texture, width, height) {
-            var result = new Uint8Array(texture.length);
-            var id = 0;
-
-            for (var i = height - 1; i >= 0; i--) {
-                for (var j = 0; j < width; j++) {
-                    var nid = i * width * 4 + j * 4;
-                    result[nid + 0] = clamp01(texture[id + 0]) * 255;
-                    result[nid + 1] = clamp01(texture[id + 1]) * 255;
-                    result[nid + 2] = clamp01(texture[id + 2]) * 255;
-                    result[nid + 3] = clamp01(texture[id + 3]) * 255;
-                    id += 4;
-                }
+                this.vertexShader = vertexShader;
+                this.fragmentShaderSource = fragmentShaderSource;
+                this.programs = [];
+                this.activeProgram = null;
+                this.uniforms = [];
             }
 
-            return result;
-        }
+            _createClass(Material, [{
+                key: "setKeywords",
+                value: function setKeywords(keywords) {
+                    var hash = 0;
 
-        function clamp01(input) {
-            return Math.min(Math.max(input, 0), 1);
-        }
+                    for (var i = 0; i < keywords.length; i++) {
+                        hash += hashCode(keywords[i]);
+                    }
 
-        function textureToCanvas(texture, width, height) {
-            var captureCanvas = document.createElement('canvas');
-            var ctx = captureCanvas.getContext('2d');
-            captureCanvas.width = width;
-            captureCanvas.height = height;
-            var imageData = ctx.createImageData(width, height);
-            imageData.data.set(texture);
-            ctx.putImageData(imageData, 0, 0);
-            return captureCanvas;
-        }
+                    var program = this.programs[hash];
 
-        function downloadURI(filename, uri) {
-            var link = document.createElement('a');
-            link.download = filename;
-            link.href = uri;
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-        }
+                    if (program == null) {
+                        var fragmentShader = compileShader(gl.FRAGMENT_SHADER, this.fragmentShaderSource, keywords);
+                        program = createProgram(this.vertexShader, fragmentShader);
+                        this.programs[hash] = program;
+                    }
 
-        var Material =
-            /*#__PURE__*/
-            function () {
-                function Material(vertexShader, fragmentShaderSource) {
-                    _classCallCheck(this, Material);
-
-                    this.vertexShader = vertexShader;
-                    this.fragmentShaderSource = fragmentShaderSource;
-                    this.programs = [];
-                    this.activeProgram = null;
-                    this.uniforms = [];
+                    if (program == this.activeProgram) return;
+                    this.uniforms = getUniforms(program);
+                    this.activeProgram = program;
                 }
-
-                _createClass(Material, [{
-                    key: "setKeywords",
-                    value: function setKeywords(keywords) {
-                        var hash = 0;
-
-                        for (var i = 0; i < keywords.length; i++) {
-                            hash += hashCode(keywords[i]);
-                        }
-
-                        var program = this.programs[hash];
-
-                        if (program == null) {
-                            var fragmentShader = compileShader(gl.FRAGMENT_SHADER, this.fragmentShaderSource, keywords);
-                            program = createProgram(this.vertexShader, fragmentShader);
-                            this.programs[hash] = program;
-                        }
-
-                        if (program == this.activeProgram) return;
-                        this.uniforms = getUniforms(program);
-                        this.activeProgram = program;
-                    }
-                }, {
-                    key: "bind",
-                    value: function bind() {
-                        gl.useProgram(this.activeProgram);
-                    }
-                }]);
-
-                return Material;
-            }();
-
-        var Program =
-            /*#__PURE__*/
-            function () {
-                function Program(vertexShader, fragmentShader) {
-                    _classCallCheck(this, Program);
-
-                    this.uniforms = {};
-                    this.program = createProgram(vertexShader, fragmentShader);
-                    this.uniforms = getUniforms(this.program);
+            }, {
+                key: "bind",
+                value: function bind() {
+                    gl.useProgram(this.activeProgram);
                 }
+            }]);
 
-                _createClass(Program, [{
-                    key: "bind",
-                    value: function bind() {
-                        gl.useProgram(this.program);
-                    }
-                }]);
+            return Material;
+        }();
 
-                return Program;
-            }();
+        var Program = function () {
+            function Program(vertexShader, fragmentShader) {
+                _classCallCheck(this, Program);
+
+                this.uniforms = {};
+                this.program = createProgram(vertexShader, fragmentShader);
+                this.uniforms = getUniforms(this.program);
+            }
+
+            _createClass(Program, [{
+                key: "bind",
+                value: function bind() {
+                    gl.useProgram(this.program);
+                }
+            }]);
+
+            return Program;
+        }();
 
         function createProgram(vertexShader, fragmentShader) {
             var program = gl.createProgram();
@@ -427,8 +515,6 @@
             if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) throw gl.getShaderInfoLog(shader);
             return shader;
         }
-
-        ;
 
         function addKeywords(source, keywords) {
             if (keywords == null) return source;
@@ -668,10 +754,15 @@
         }
 
         updateKeywords();
+
         initFramebuffers();
+
         multipleSplats(parseInt(Math.random() * 20) + 5);
+
         var lastUpdateTime = Date.now();
+
         var colorUpdateTimer = 0.0;
+
         update();
 
         function update() {
@@ -720,7 +811,9 @@
         }
 
         function applyInputs() {
-            if (splatStack.length > 0) multipleSplats(splatStack.pop());
+            if (splatStack.length > 0) {
+                multipleSplats(splatStack.pop());
+            }
             pointers.forEach(function (p) {
                 if (p.moved) {
                     p.moved = false;
@@ -955,8 +1048,6 @@
             return radius;
         }
 
-        var title = document.getElementById('title');
-
         canvas.addEventListener('mouseenter', function (e) {
             var posX = scaleByPixelRatio(e.offsetX);
             var posY = scaleByPixelRatio(e.offsetY);
@@ -1026,7 +1117,9 @@
         });
 
         window.addEventListener('keydown', function (e) {
-            if (e.key === ' ') splatStack.push(parseInt(Math.random() * 20) + 5);
+            if (e.key === ' ') {
+                splatStack.push(parseInt(Math.random() * 20) + 5);
+            }
         });
 
         function updatePointerDownData(pointer, id, posX, posY) {

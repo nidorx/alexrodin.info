@@ -7,7 +7,7 @@ var app = express();
 app.use(compression());
 
 // Serve static files from `dist` dir.
-app.use(express.static('dist', {
+app.use(express.static('public', {
     maxAge: '1y'
 }));
 

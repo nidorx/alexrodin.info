@@ -8,8 +8,7 @@ module.exports = {
         tasks: [
             'dot',
             'concat',
-            'uglify',
-            'ultra-compact'
+            'uglify'
         ]
     },
     js: {
@@ -18,8 +17,7 @@ module.exports = {
         ],
         tasks: [
             'concat',
-            'uglify',
-            'ultra-compact'
+            'uglify'
         ]
     },
     html: {
@@ -28,7 +26,6 @@ module.exports = {
         ],
         tasks: [
             'processhtml',
-            'ultra-compact',
             'htmlmin'
         ]
     },
@@ -40,7 +37,6 @@ module.exports = {
             'sass',
             'cssmin',
             'processhtml',
-            'ultra-compact',
             'htmlmin'
         ]
     },

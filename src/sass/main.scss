@@ -9,7 +9,7 @@
 }
 
 * {
-  //user-select: none;
+  user-select: none;
 }
 
 html, body {
@@ -17,10 +17,11 @@ html, body {
   background-color: #000;
   margin: 0;
   padding: 0;
-  font: 16px/1.4 'Lato', sans-serif;
+  font-family: 'Lato', sans-serif;
   color: #fefeff;
   -webkit-font-smoothing: antialiased;
   font-smoothing: antialiased;
+  font-size: 16px/1.4;
 }
 
 body {
@@ -30,24 +31,66 @@ body {
   height: 100%;
   background: rgb(8, 5, 16);
   -webkit-touch-callout: none;
-  //-webkit-user-select: none;
-  //-khtml-user-select: none;
-  //-moz-user-select: none;
-  //-ms-user-select: none;
-  //user-select: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
+
+
 h1 {
-  font: 2.75em 'Cinzel', serif;
-  font-weight: 400;
+  font-size: 1.9em;
   letter-spacing: 0.35em;
+}
+
+h2 {
+  font-size: 0.9em;
+  letter-spacing: 0.5em;
+}
+
+html, body, #h3, #h4, #h5 {
+  font-size: 0.7em/1.4;
+  letter-spacing: 0.2em;
+}
+
+@media (min-width: 641px) {
+  /* portrait tablets, portrait iPad, landscape e-readers, landscape 800x480 or 854x480 phones */
+}
+
+@media (min-width: 961px) {
+  /* tablet, landscape iPad, lo-res laptops ands desktops */
+  h1 {
+    font-size: 2.75em;
+    letter-spacing: 0.35em;
+  }
+
+  h2 {
+    font-size: 1.45em;
+    letter-spacing: 0.5em;
+  }
+
+  #h3, #h4, #h5 {
+    font-size: 16px/1.4;
+    letter-spacing: 0.2em;
+  }
+
+  #h5 {
+    font-size: 16px/1.4;
+  }
+}
+
+
+h1 {
+  font-family: 'Cinzel', serif;
+  font-weight: 400;
   text-shadow: 0 0 25px rgba(254, 254, 255, 0.85);
 }
 
 h2 {
-  font: 1.45em 'Cinzel', serif;
+  font-family: 'Cinzel', serif;
   font-weight: 400;
-  letter-spacing: 0.5em;
   text-shadow: 0 0 25px rgba(254, 254, 255, 0.85);
   text-transform: lowercase;
 }
@@ -105,14 +148,12 @@ h2.transition-out [class^="letter"] {
 }
 
 #h3, #h4, #h5 {
-  font: 16px/1.4 'Lato', sans-serif;
+  font-family: 'Lato', sans-serif;
   font-weight: 400;
-  letter-spacing: 0.2em;
   text-shadow: none;
 }
 
 #h5 {
-  font: 16px/1.4 Lato, sans-serif;
   letter-spacing: .1em;
   visibility: visible;
   margin-top: 50px;
@@ -152,6 +193,7 @@ h2.transition-out [class^="letter"] {
   height: 100%;
   text-align: center;
   //cursor: none;
+  padding: 10px;
 }
 
 #container > div {
@@ -199,4 +241,108 @@ h2.transition-out [class^="letter"] {
   width: 100%;
   height: 100%;
   //cursor: none;
+}
+
+@keyframes mouseClick {
+  0% {
+    -webkit-transform: rotateX(0deg);
+    transform: rotateX(0deg);
+    background: rgba(255, 255, 255, .5);
+  }
+
+  45% {
+    -webkit-transform: rotateX(15deg);
+    transform: rotateX(15deg);
+    background: rgba(255, 255, 255, .7);
+  }
+
+  65%, 100% {
+    -webkit-transform: rotateX(0deg);
+    transform: rotateX(0deg);
+    background: rgba(255, 255, 255, .5);
+  }
+}
+
+@-webkit-keyframes mouseClick {
+  0% {
+    -webkit-transform: rotateX(0deg);
+    transform: rotateX(0deg);
+    background: rgba(255, 255, 255, .5);
+  }
+
+  45% {
+    -webkit-transform: rotateX(15deg);
+    transform: rotateX(15deg);
+    background: rgba(255, 255, 255, .7);
+  }
+
+  65%, 100% {
+    -webkit-transform: rotateX(0deg);
+    transform: rotateX(0deg);
+    background: rgba(255, 255, 255, .5);
+  }
+}
+
+#mouse {
+  position: absolute;
+  border: none !important;
+  overflow: visible;
+  text-align: center;
+  opacity: 1;
+  height: auto;
+  right: 30px;
+  top: 10px;
+  opacity: 1;
+  transition: opacity .55s cubic-bezier(.5, .1, .07, 1);
+}
+
+#mouse.hidden {
+  opacity: 0;
+}
+
+#mouse.off {
+  visibility: hidden;
+}
+
+#mouse:before {
+  position: absolute;
+  content: '';
+  display: block;
+  left: 50%;
+  margin-left: -1px;
+  top: 7px;
+  background-color: rgba(255, 255, 255, 0.5);
+  width: 2px;
+  height: 6px;
+  border-radius: 10px;
+}
+
+#mouse:after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 50%;
+  display: block;
+  width: 30px;
+  height: 45px;
+  margin-left: -15px;
+  border: 2px solid rgba(255, 255, 255, 0.5);
+  border-radius: 30px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  z-index: 62;
+}
+
+
+#mouse i {
+  position: absolute;
+  width: 13px;
+  left: -13px;
+  height: 13px;
+  top: 2px;
+  border-top-left-radius: 30px;
+  background: rgba(255, 255, 255, .5);
+  -webkit-animation: mouseClick 2.4s cubic-bezier(.25, .46, .45, .94) infinite;
+  animation: mouseClick 2.4s cubic-bezier(.25, .46, .45, .94) infinite;
 }
