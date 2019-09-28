@@ -183,7 +183,7 @@
                 audioCtx = new (window.AudioContext || window.webkitAudioContext)();
                 startAudio();
             }
-        });
+        }, {passive: true});
 
         function _instanceof(left, right) {
             if (right != null && typeof Symbol !== "undefined" && right[Symbol.hasInstance]) {
@@ -1083,7 +1083,7 @@
                 var posY = scaleByPixelRatio(touches[i].pageY);
                 updatePointerDownData(pointers[i + 1], touches[i].identifier, posX, posY);
             }
-        });
+        }, {passive: true});
 
         canvas.addEventListener('touchmove', function (e) {
             e.preventDefault();
@@ -1096,7 +1096,7 @@
                 var posY = scaleByPixelRatio(touches[i].pageY);
                 updatePointerMoveData(pointer, posX, posY);
             }
-        }, false);
+        }, {passive: true});
 
         window.addEventListener('touchend', function (e) {
             var touches = e.changedTouches;
