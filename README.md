@@ -18,14 +18,14 @@ A página é inspirada e baseada nos experimentos de [Nik Rowell](http://www.nik
 
 ## Servidor local
 
-Inicia servidor local para desenvolvimento, com live reload, abre o automaticamente o navegador no endereço `localhost:8080`.
+Inicia servidor local para desenvolvimento, com live reload, abre automaticamente o navegador no endereço `localhost:8080`.
 
 ```bash
 npm install
 npm start
 ```
 
-## Build versão de deploy
+## Construção da versão de publicação
 
 Ao executar o comando abaixo, a versão final estará disponível na pasta `dist`, lá estará disponível também o conteúdo da pasta compactada no formato `tar.gz`, que uso para publicação no meu ambiente.
 
