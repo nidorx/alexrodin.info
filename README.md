@@ -1,4 +1,10 @@
-# alexrodin.info
+<div align="center">
+    <h1>Alex Rodin</h1>
+    <img src="./docs/screen.gif" width="100%" />
+    <p align="center">
+        <a href="http://alexrodin.info">http://alexrodin.info</a>
+    </p>
+</div>
 
 Meu site, alexrodin.info
 
@@ -17,10 +23,20 @@ npm run-script build
 
 ## Publicação na AWS
 
+npm install pm2
+
+PM2_PUBLIC_KEY=m6p652dwh8d6z6v
+PM2_SECRET_KEY=bq4p52z2637q78c
+
 ```bash
+# Geração da key (deve ser importada na interface da AWS)
+ssh-keygen -f nidorx -c "nidorx"
+
 exec ssh-agent bash
 ssh-add nidorx.pem
-ssh ubuntu@52.67.23.160
+ssh -i alexrodin.info ubuntu@52.67.23.160
+
+
 
 mkdir alexrodin.info
 
