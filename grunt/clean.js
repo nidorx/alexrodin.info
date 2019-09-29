@@ -1,7 +1,8 @@
 module.exports = {
     // Limpeza dos diretórios de desenvolvimento
     dev: [
-        '.tmp/*'
+        '.tmp/*',
+        './dist/*',
     ],
     // Faz a limpeza dos arquivos para o ambiente de distribuição
     dist: [

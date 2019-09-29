@@ -42,8 +42,15 @@ mkdir alexrodin.info
 
 pm2 start ./dist/index.js --name "server-3000_glorex-app"
 
-
+tar xvzf /var/www/alexrodin.info.tar.gz -C /var/www/alexrodin.info && rm /var/www/alexrodin.info.tar.gz
 ```
+
+
+
+
+
+
+
 3camadas.com.br  clan-headshot.com  err  hackaton  iptalbes_stop.sh  mapadeviagem.com  minecraft-server-1.12.2  out  thawancavalcante.com  wetty
 ubuntu@ip-172-30-1-179:~$ service --status-all
  [ + ]  acpid
