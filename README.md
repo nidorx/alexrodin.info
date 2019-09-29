@@ -1,8 +1,9 @@
 <div align="center">
-    <h1>Alex Rodin</h1>
-    <img src="./docs/screen.gif" width="100%" />
+    <h1>http://alexrodin.info</h1>
     <p align="center">
-        <a href="http://alexrodin.info">http://alexrodin.info</a>
+        <a href="http://alexrodin.info">
+            <img src="./docs/screen.gif" width="500" />
+        </a>
     </p>
 </div>
 
