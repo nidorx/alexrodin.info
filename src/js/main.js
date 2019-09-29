@@ -1,13 +1,6 @@
 (function (window) {
     'use strict';
 
-    // before onload
-    window.audioInit = function () {
-        setTimeout(function () {
-            window.audioInit();
-        }, 20);
-    };
-
     function letters(id, callback, extraClass) {
 
         var el = document.getElementById(id),
@@ -26,15 +19,7 @@
             if (typeof callback === 'function') {
                 setTimeout(callback, letters.length * 200);
             }
-
-            // setTimeout(removeClass, Math.max((Math.random() * 20000) + 20000, 5000));
         };
-
-        // var removeClass = function () {
-        //     el.className = 'transition-out';
-        //     setTimeout(addClass, Math.max((Math.random() * 5000) + 5000, 2000));
-        // };
-
 
         setTimeout(addClass, (Math.random() * 500) + 500);
     }
@@ -58,69 +43,6 @@
         var source;
         var buffer;
 
-        function audioInit() {
-            clearInterval(audioInterval);
-            // var SPLATS = [
-            //     // time => [x, y, dx, dy]
-            //     [1000, [Math.random(), Math.random(), Math.random(), Math.random()]],
-            //     // [3000, 1],
-            //     // [100, 2],
-            //     // [100, 3],
-            //     // [800, 1],
-            //     // [800, 1],
-            //     // [800, 1],
-            //     // [800, 1],
-            //     // [800, 1],
-            //     // [800, 1],
-            //     // [800, 1],
-            //     // [800, 1],
-            //     // [800, 1],
-            //     // [800, 1],
-            //     // [800, 1],
-            //     // [800, 1],
-            //     // [800, 1],
-            //     // [800, 1],
-            //     // [800, 1],
-            //     // [800, 1],
-            //     // [800, 1],
-            //     // [800, 1],
-            //     // [800, 1],
-            //     // [100, 1],
-            //     // [100, 2],
-            // ];
-            //
-            // var last = +new Date();
-            // var index = 0;
-            // var next = function () {
-            //     var now = +new Date();
-            //     if (last + SPLATS[index][0] < now) {
-            //         var points = SPLATS[index][1];
-            //         console.log('points', points);
-            //         multipleSplats(points.left);
-            //         // for (var a = 0; a < points.left; a++) {
-            //         //     var point = points[a];
-            //         //     var color = generateColor();
-            //         //     color.r *= 10.0;
-            //         //     color.g *= 10.0;
-            //         //     color.b *= 10.0;
-            //         //     var x = point[0];
-            //         //     var y = point[1];
-            //         //     var dx = 1000 * (point[2] - 0.5);
-            //         //     var dy = 1000 * (point[3] - 0.5);
-            //         //     splat(x, y, dx, dy, color);
-            //         // }
-            //         update();
-            //         index++;
-            //         last = now;
-            //         if (index > SPLATS.length - 1) {
-            //             index = 0
-            //         }
-            //     }
-            // };
-            //
-            // audioInterval = setInterval(next, 100);
-        }
-
         function startAudio() {
             var mouseIcon = document.getElementById('mouse');
             mouseIcon.className = 'hidden';
@@ -141,9 +63,6 @@
 
                 source.start(0);
                 source.loop = true;
-                // audioInit();
-                // source.loopStart = 0.24;
-                // source.loopEnd = 0.34;
             };
 
             // AudioContext must be resumed after the document received a user gesture to enable audio playback.
@@ -171,30 +90,30 @@
         }
 
         function launchIntoFullscreen(element) {
-            if(element.requestFullscreen) {
+            if (element.requestFullscreen) {
                 element.requestFullscreen();
-            } else if(element.mozRequestFullScreen) {
+            } else if (element.mozRequestFullScreen) {
                 element.mozRequestFullScreen();
-            } else if(element.webkitRequestFullscreen) {
+            } else if (element.webkitRequestFullscreen) {
                 element.webkitRequestFullscreen();
-            } else if(element.msRequestFullscreen) {
+            } else if (element.msRequestFullscreen) {
                 element.msRequestFullscreen();
             }
         }
 
         window.addEventListener('click', function () {
             if (!audioCtx) {
-                launchIntoFullscreen(document.documentElement);
                 audioCtx = new (window.AudioContext || window.webkitAudioContext)();
                 startAudio();
+                launchIntoFullscreen(document.documentElement);
             }
         });
 
         window.addEventListener('touchstart', function () {
             if (!audioCtx) {
-                launchIntoFullscreen(document.documentElement);
                 audioCtx = new (window.AudioContext || window.webkitAudioContext)();
                 startAudio();
+                launchIntoFullscreen(document.documentElement);
             }
         });
 
@@ -231,7 +150,6 @@
         var canvas = document.getElementsByTagName('canvas')[0];
         resizeCanvas();
         var config = {
-            SHOW_GUI: false,
             SIM_RESOLUTION: 128,
             DYE_RESOLUTION: 1024,
             CAPTURE_RESOLUTION: 512,
@@ -263,7 +181,7 @@
             SUNRAYS_WEIGHT: 1.0
         };
 
-        function pointerPrototype() {
+        function PointerPrototype() {
             this.id = -1;
             this.texcoordX = 0;
             this.texcoordY = 0;
@@ -278,14 +196,13 @@
 
         var pointers = [];
         var splatStack = [];
-        pointers.push(new pointerPrototype());
+        pointers.push(new PointerPrototype());
 
         var audioInterval = 0;
 
-
-        // setInterval(function () {
-        //     splatStack.push(parseInt(Math.random() * 10) + 3);
-        // }, 20000);
+        setInterval(function () {
+            splatStack.push(parseInt(Math.random() * 10) + 3);
+        }, 20000);
 
         var _getWebGLContext = getWebGLContext(canvas),
             gl = _getWebGLContext.gl,
@@ -388,11 +305,11 @@
             gl.bindFramebuffer(gl.FRAMEBUFFER, fbo);
             gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, texture, 0);
             var status = gl.checkFramebufferStatus(gl.FRAMEBUFFER);
-            return status == gl.FRAMEBUFFER_COMPLETE;
+            return status === gl.FRAMEBUFFER_COMPLETE;
         }
 
         function startGUI() {
-            if (!config.SHOW_GUI) {
+            if (!window.data) {
                 return;
             }
             var gui = new dat.GUI({
@@ -466,7 +383,9 @@
                         this.programs[hash] = program;
                     }
 
-                    if (program == this.activeProgram) return;
+                    if (program === this.activeProgram) {
+                        return;
+                    }
                     this.uniforms = getUniforms(program);
                     this.activeProgram = program;
                 }
@@ -717,7 +636,9 @@
         }
 
         function resizeDoubleFBO(target, w, h, internalFormat, format, type, param) {
-            if (target.width == w && target.height == h) return target;
+            if (target.width === w && target.height === h) {
+                return target;
+            }
             target.read = resizeFBO(target.read, w, h, internalFormat, format, type, param);
             target.write = createFBO(w, h, internalFormat, format, type, param);
             target.width = w;
@@ -770,7 +691,10 @@
 
         initFramebuffers();
 
-        multipleSplats(parseInt(Math.random() * 20) + 5);
+        // Initial splats
+        setTimeout(function () {
+            multipleSplats(parseInt(Math.random() * 20) + 5);
+        }, 200);
 
         var lastUpdateTime = Date.now();
 
@@ -802,7 +726,7 @@
             var width = scaleByPixelRatio(canvas.clientWidth);
             var height = scaleByPixelRatio(canvas.clientHeight);
 
-            if (canvas.width != width || canvas.height != height) {
+            if (canvas.width !== width || canvas.height !== height) {
                 canvas.width = width;
                 canvas.height = height;
                 return true;
@@ -1065,9 +989,9 @@
             var posX = scaleByPixelRatio(e.offsetX);
             var posY = scaleByPixelRatio(e.offsetY);
             var pointer = pointers.find(function (p) {
-                return p.id == -1;
+                return p.id === -1;
             });
-            if (pointer == null) pointer = new pointerPrototype();
+            if (pointer == null) pointer = new PointerPrototype();
             updatePointerDownData(pointer, -1, posX, posY);
         });
 
@@ -1088,7 +1012,7 @@
             var touches = e.targetTouches;
 
             while (touches.length >= pointers.length) {
-                pointers.push(new pointerPrototype());
+                pointers.push(new PointerPrototype());
             }
 
             for (var i = 0; i < touches.length; i++) {
@@ -1116,7 +1040,7 @@
 
             var _loop = function _loop(i) {
                 var pointer = pointers.find(function (p) {
-                    return p.id == touches[i].identifier;
+                    return p.id === touches[i].identifier;
                 });
                 if (pointer == null) return "continue";
                 updatePointerUpData(pointer);
@@ -1124,8 +1048,6 @@
 
             for (var i = 0; i < touches.length; i++) {
                 var _ret = _loop(i);
-
-                if (_ret === "continue") continue;
             }
         });
 
@@ -1192,27 +1114,39 @@
 
             switch (i % 6) {
                 case 0:
-                    r = v, g = t, b = p;
+                    r = v;
+                    g = t;
+                    b = p;
                     break;
 
                 case 1:
-                    r = q, g = v, b = p;
+                    r = q;
+                    g = v;
+                    b = p;
                     break;
 
                 case 2:
-                    r = p, g = v, b = t;
+                    r = p;
+                    g = v;
+                    b = t;
                     break;
 
                 case 3:
-                    r = p, g = q, b = v;
+                    r = p;
+                    g = q;
+                    b = v;
                     break;
 
                 case 4:
-                    r = t, g = p, b = v;
+                    r = t;
+                    g = p;
+                    b = v;
                     break;
 
                 case 5:
-                    r = v, g = p, b = q;
+                    r = v;
+                    g = p;
+                    b = q;
                     break;
             }
 
@@ -1224,17 +1158,18 @@
         }
 
         function normalizeColor(input) {
-            var output = {
+            return {
                 r: input.r / 255,
                 g: input.g / 255,
                 b: input.b / 255
             };
-            return output;
         }
 
         function wrap(value, min, max) {
             var range = max - min;
-            if (range == 0) return min;
+            if (range === 0) {
+                return min;
+            }
             return (value - min) % range + min;
         }
 
@@ -1265,7 +1200,10 @@
         }
 
         function hashCode(s) {
-            if (s.length == 0) return 0;
+            if (s.length === 0) {
+                return 0
+            }
+
             var hash = 0;
 
             for (var i = 0; i < s.length; i++) {

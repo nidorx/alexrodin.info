@@ -7,90 +7,57 @@
     </p>
 </div>
 
-Meu site, alexrodin.info
+## Inspiração
+
+A página é inspirada e baseada nos experimentos de [Nik Rowell](http://www.nikrowell.com/projects/ultraviolet) e [Pavel Dobryakov](http://github.com/PavelDoGreat/WebGL-Fluid-Simulation)
 
 
-## Servidor local (desenvolvimento)
+## Pre requisitos
+
+- Node.js (npm)
+
+## Servidor local
+
+Inicia servidor local para desenvolvimento, com live reload, abre o automaticamente o navegador no endereço `localhost:8080`.
 
 ```bash
+npm install
 npm start
 ```
 
 ## Build versão de deploy
 
+Ao executar o comando abaixo, a versão final estará disponível na pasta `dist`, lá estará disponível também o conteúdo da pasta compactada no formato `tar.gz`, que uso para publicação no meu ambiente.
+
+
 ```bash
 npm run-script build
 ```
 
-## Publicação na AWS
+## Publicação da versão de produção
 
-npm install pm2
-
-PM2_PUBLIC_KEY=m6p652dwh8d6z6v
-PM2_SECRET_KEY=bq4p52z2637q78c
+A versão final, disponível na pasta `dist` pode ser executada com os comandos abaixo
 
 ```bash
-# Geração da key (deve ser importada na interface da AWS)
-ssh-keygen -f nidorx -c "nidorx"
-
-exec ssh-agent bash
-ssh-add nidorx.pem
-ssh -i alexrodin.info ubuntu@52.67.23.160
-
-
-
-mkdir alexrodin.info
-
-pm2 start ./dist/index.js --name "server-3000_glorex-app"
-
-tar xvzf /var/www/alexrodin.info.tar.gz -C /var/www/alexrodin.info && rm /var/www/alexrodin.info.tar.gz
+cd dist
+npm start
 ```
 
+O script fará a instalação das dependencias de produção e inicializa o servidor na porta `3060`.
 
 
 
+## Outras informações
+
+- Problemas com nody-gyp no Windows? `npm install --global windows-build-tools`
+- Problemas com nody-gyp no Ubuntu/Debian? `sudo apt-get install gcc g++ make` 
+- [https://www.favicon-generator.org](https://www.favicon-generator.org) Usado para gerar o favicon
+- [http://www.mp3smaller.com](http://www.mp3smaller.com) Usado para reduzir o tamanho do arquivo de áudio (Usei a opção: Small File Size (MP3 Bitrate 32-64Kbps VBR))
+- [https://www.screentogif.com](https://www.screentogif.com) Usado para gravar o gif no topo dessa documentação.
+
+> NOTA! No windows, execute o comando acima usando o PowerShell como Administrador
 
 
+## Licença
 
-3camadas.com.br  clan-headshot.com  err  hackaton  iptalbes_stop.sh  mapadeviagem.com  minecraft-server-1.12.2  out  thawancavalcante.com  wetty
-ubuntu@ip-172-30-1-179:~$ service --status-all
- [ + ]  acpid
- [ - ]  apparmor
- [ ? ]  apport
- [ + ]  atd
- [ ? ]  console-setup
- [ + ]  cron
- [ ? ]  cryptdisks
- [ ? ]  cryptdisks-early
- [ - ]  dbus
- [ ? ]  dns-clean
- [ + ]  friendly-recovery
- [ - ]  grub-common
- [ ? ]  irqbalance
- [ ? ]  killprocs
- [ ? ]  kmod
- [ - ]  landscape-client
- [ ? ]  mysql
- [ ? ]  networking
- [ + ]  nginx
- [ ? ]  ondemand
- [ ? ]  open-vm-tools
- [ - ]  php7.1-fpm
- [ ? ]  pppd-dns
- [ - ]  procps
- [ ? ]  rc.local
- [ + ]  resolvconf
- [ - ]  rsync
- [ + ]  rsyslog
- [ ? ]  screen-cleanup
- [ ? ]  sendsigs
- [ + ]  shellinabox
- [ - ]  ssh
- [ - ]  sudo
- [ - ]  udev
- [ ? ]  umountfs
- [ ? ]  umountnfs.sh
- [ ? ]  umountroot
- [ - ]  unattended-upgrades
- [ - ]  urandom
- [ - ]  x11-common
+Este código é distribuído sob os termos e condições da [licença MIT](LICENSE).

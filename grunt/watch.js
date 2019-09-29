@@ -42,7 +42,7 @@ module.exports = {
     },
     livereload: {
         files: [
-            'www/**/*'
+            '.tmp/**/*'
         ],
         options: {
             livereload: true
