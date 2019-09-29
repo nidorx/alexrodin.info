@@ -37,5 +37,11 @@ module.exports = {
         src: 'server.js',
         cwd: '.',
         dest: 'dist/'
+    },
+    nginx: {
+        expand: true,
+        src: 'nginx.conf',
+        cwd: '.',
+        dest: 'dist/'
     }
 };
