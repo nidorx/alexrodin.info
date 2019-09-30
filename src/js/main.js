@@ -309,7 +309,7 @@
         }
 
         function startGUI() {
-            if (!window.data) {
+            if (!window.dat) {
                 return;
             }
             var gui = new dat.GUI({

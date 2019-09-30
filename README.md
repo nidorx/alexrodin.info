@@ -25,6 +25,10 @@ npm install
 npm start
 ```
 
+### Controles
+
+Para exigir os controles do [dat.GUI](https://github.com/dataarts/dat.gui), altere a linha `78` do `index.html`, de `<!--<script src="js/dat.gui.min.js"></script>-->` para `<script src="js/dat.gui.min.js"></script>`
+
 ## Construção da versão de publicação
 
 Ao executar o comando abaixo, a versão final estará disponível na pasta `dist`, lá estará disponível também o conteúdo da pasta compactada no formato `tar.gz`, que uso para publicação no meu ambiente.
