@@ -52,7 +52,7 @@ O script fará a instalação das dependencias de produção e inicializa o serv
 - Problemas com node-gyp no Windows? `npm install --global windows-build-tools`
 - Problemas com node-gyp no Ubuntu/Debian? `sudo apt-get install gcc g++ make` 
 - [https://www.favicon-generator.org](https://www.favicon-generator.org) Usado para gerar o favicon
-- [http://www.mp3smaller.com](http://www.mp3smaller.com) Usado para reduzir o tamanho do arquivo de áudio (Usei a opção: Small File Size (MP3 Bitrate 32-64Kbps VBR))
+- [http://www.mp3smaller.com](http://www.mp3smaller.com) Usado para reduzir o tamanho do arquivo de áudio (Usei a opção: `Small File Size (MP3 Bitrate 32-64Kbps VBR)`)
 - [https://www.screentogif.com](https://www.screentogif.com) Usado para gravar o gif no topo dessa documentação.
 
 > NOTA! No windows, execute o comando acima usando o PowerShell como Administrador
